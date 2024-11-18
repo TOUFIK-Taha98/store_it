@@ -1,19 +1,25 @@
 "use client";
 
-import { navItems } from "@/constants";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { avatarPlaceholderUrl, navItems } from "@/constants";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-const Sidebar = () => {
+interface Props {
+  fullName: string;
+  avatar: string;
+  email: string;
+}
+
+const Sidebar = ({ fullName, avatar, email }: Props) => {
   const pathname = usePathname();
 
   return (
     <aside className="sidebar">
-      <Link href={"/"}>
+      <Link href="/">
         <Image
-          src={"/assets/icons/logo-full-brand.svg"}
+          src="/assets/icons/logo-full-brand.svg"
           alt="logo"
           width={160}
           height={50}
@@ -21,7 +27,7 @@ const Sidebar = () => {
         />
 
         <Image
-          src={"/assets/icons/logo-brand.svg"}
+          src="/assets/icons/logo-brand.svg"
           alt="logo"
           width={52}
           height={52}
@@ -55,6 +61,28 @@ const Sidebar = () => {
           ))}
         </ul>
       </nav>
+
+      <Image
+        src="/assets/images/files-2.png"
+        alt="logo"
+        width={506}
+        height={418}
+        className="w-full"
+      />
+
+      <div className="sidebar-user-info">
+        <Image
+          src={avatar}
+          alt="Avatar"
+          width={44}
+          height={44}
+          className="sidebar-user-avatar"
+        />
+        <div className="hidden lg:block">
+          <p className="subtitle-2 capitalize">{fullName}</p>
+          <p className="caption">{email}</p>
+        </div>
+      </div>
     </aside>
   );
 };
