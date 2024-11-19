@@ -4,12 +4,17 @@ import Search from "./Search";
 import FileUploader from "./FileUploader";
 import { SignOutUser } from "@/lib/actions/user.actions";
 
-const Header = () => {
+interface HeaderProps {
+  userId: string;
+  accountId: string;
+}
+
+const Header = ({ userId, accountId }: HeaderProps) => {
   return (
     <div className="header">
       <Search />
       <div className="header-wrapper">
-        <FileUploader />
+        <FileUploader ownerId={userId} accountId={accountId} />
         <form
           action={async () => {
             "use server";
