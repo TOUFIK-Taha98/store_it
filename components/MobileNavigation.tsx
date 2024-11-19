@@ -7,14 +7,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Separator } from "./ui/separator";
+import { Separator } from "@radix-ui/react-separator";
 import { navItems } from "@/constants";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
-import FileUploader from "./FileUploader";
-import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import FileUploader from "@/components/FileUploader";
 import { SignOutUser } from "@/lib/actions/user.actions";
 
 interface Props {
@@ -36,9 +36,9 @@ const MobileNavigation = ({
   const pathname = usePathname();
 
   return (
-    <header>
+    <header className="mobile-header">
       <Image
-        src={"/assets/icons/logo-full-brand.svg"}
+        src="/assets/icons/logo-full-brand.svg"
         alt="logo"
         width={120}
         height={52}
@@ -48,7 +48,7 @@ const MobileNavigation = ({
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger>
           <Image
-            src={"/assets/icons/menu.svg"}
+            src="/assets/icons/menu.svg"
             alt="Search"
             width={30}
             height={30}
@@ -59,7 +59,7 @@ const MobileNavigation = ({
             <div className="header-user">
               <Image
                 src={avatar}
-                alt="avatarr"
+                alt="avatar"
                 width={44}
                 height={44}
                 className="header-user-avatar"
@@ -99,18 +99,17 @@ const MobileNavigation = ({
             </ul>
           </nav>
 
-          <Separator className="my-6 bg-light-200/20" />
+          <Separator className="my-5 bg-light-200/20" />
 
           <div className="flex flex-col justify-between gap-5 pb-5">
             <FileUploader ownerId={ownerId} accountId={accountId} />
-
             <Button
               type="submit"
               className="mobile-sign-out-button"
               onClick={async () => await SignOutUser()}
             >
               <Image
-                src={"/assets/icons/logout.svg"}
+                src="/assets/icons/logout.svg"
                 alt="logo"
                 width={24}
                 height={24}
@@ -123,4 +122,5 @@ const MobileNavigation = ({
     </header>
   );
 };
+
 export default MobileNavigation;

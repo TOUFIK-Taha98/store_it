@@ -1,11 +1,12 @@
 "use server";
 
+import { createAdminClient } from "@/lib/appwrite";
 import { InputFile } from "node-appwrite/file";
-import { createAdminClient } from "../appwrite";
-import { appwriteConfig } from "../appwrite/config";
+import { appwriteConfig } from "@/lib/appwrite/config";
 import { ID } from "node-appwrite";
-import { constructFileUrl, getFileType, parseStringify } from "../utils";
+import { constructFileUrl, getFileType, parseStringify } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
+import { File } from "buffer";
 
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
@@ -18,10 +19,15 @@ export const uploadFile = async ({
   accountId,
   path,
 }: UploadFileProps) => {
-  try {
-    const { storage, databases } = await createAdminClient();
+  const { storage, databases } = await createAdminClient();
 
-    const inputFile = InputFile.fromBuffer(file, file.name);
+  try {
+    if (!file || !(file instanceof File) || file.size === 0) {
+      throw new Error("Invalid or empty file. Please provide a valid file.");
+    }
+
+    const arrayBuffer = await file.arrayBuffer(); // Convert to ArrayBuffer
+    const inputFile = InputFile.fromBuffer(Buffer.from(arrayBuffer), file.name); // Convert to Buffer
 
     const bucketFile = await storage.createFile(
       appwriteConfig.bucketId,
@@ -54,9 +60,9 @@ export const uploadFile = async ({
       });
 
     revalidatePath(path);
-
     return parseStringify(newFile);
   } catch (error) {
+    console.error("Upload error details:", error);
     handleError(error, "Failed to upload file");
   }
 };
