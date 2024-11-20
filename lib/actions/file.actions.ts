@@ -1,12 +1,12 @@
 "use server";
 
 import { createAdminClient } from "@/lib/appwrite";
-import { InputFile } from "node-appwrite/file";
 import { appwriteConfig } from "@/lib/appwrite/config";
-import { ID } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 import { File } from "buffer";
+import { revalidatePath } from "next/cache";
+import { ID } from "node-appwrite";
+import { InputFile } from "node-appwrite/file";
 
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
@@ -14,12 +14,12 @@ const handleError = (error: unknown, message: string) => {
 };
 
 export const uploadFile = async ({
+  accountId,
   file,
   ownerId,
-  accountId,
   path,
 }: UploadFileProps) => {
-  const { storage, databases } = await createAdminClient();
+  const { databases, storage } = await createAdminClient();
 
   try {
     if (!file || !(file instanceof File) || file.size === 0) {
@@ -36,15 +36,15 @@ export const uploadFile = async ({
     );
 
     const fileDocument = {
-      type: getFileType(bucketFile.name).type,
-      name: bucketFile.name,
-      url: constructFileUrl(bucketFile.$id),
-      extension: getFileType(bucketFile.name).extension,
-      size: bucketFile.sizeOriginal,
-      owner: ownerId,
       accountId,
-      users: [],
       bucketFileId: bucketFile.$id,
+      extension: getFileType(bucketFile.name).extension,
+      name: bucketFile.name,
+      owner: ownerId,
+      size: bucketFile.sizeOriginal,
+      type: getFileType(bucketFile.name).type,
+      url: constructFileUrl(bucketFile.$id),
+      users: [],
     };
 
     const newFile = await databases

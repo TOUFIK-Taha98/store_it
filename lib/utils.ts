@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -33,7 +33,7 @@ export const calculatePercentage = (sizeInBytes: number) => {
 export const getFileType = (fileName: string) => {
   const extension = fileName.split(".").pop()?.toLowerCase();
 
-  if (!extension) return { type: "other", extension: "" };
+  if (!extension) return { extension: "", type: "other" };
 
   const documentExtensions = [
     "pdf",
@@ -67,15 +67,15 @@ export const getFileType = (fileName: string) => {
   const audioExtensions = ["mp3", "wav", "ogg", "flac"];
 
   if (documentExtensions.includes(extension))
-    return { type: "document", extension };
-  if (imageExtensions.includes(extension)) return { type: "image", extension };
-  if (videoExtensions.includes(extension)) return { type: "video", extension };
-  if (audioExtensions.includes(extension)) return { type: "audio", extension };
+    return { extension, type: "document" };
+  if (imageExtensions.includes(extension)) return { extension, type: "image" };
+  if (videoExtensions.includes(extension)) return { extension, type: "video" };
+  if (audioExtensions.includes(extension)) return { extension, type: "audio" };
 
-  return { type: "other", extension };
+  return { extension, type: "other" };
 };
 
-export const formatDateTime = (isoString: string | null | undefined) => {
+export const formatDateTime = (isoString: null | string | undefined) => {
   if (!isoString) return "—";
 
   const date = new Date(isoString);
@@ -115,57 +115,57 @@ export const getFileIcon = (
   type: FileType | string
 ) => {
   switch (extension) {
-    // Document
-    case "pdf":
-      return "/assets/icons/file-pdf.svg";
+    // Video
+    case "3gp":
+    case "avi":
+    case "flv":
+    case "m4v":
+    case "mkv":
+    case "mov":
+    case "mp4":
+    case "webm":
+    case "wmv":
+      return "/assets/icons/file-video.svg";
+    // Audio
+    case "aac":
+    case "aiff":
+    case "alac":
+    case "flac":
+    case "m4a":
+    case "mp3":
+    case "mpeg":
+    case "ogg":
+    case "wav":
+    case "wma":
+      return "/assets/icons/file-audio.svg";
+    case "csv":
+      return "/assets/icons/file-csv.svg";
     case "doc":
       return "/assets/icons/file-doc.svg";
     case "docx":
       return "/assets/icons/file-docx.svg";
-    case "csv":
-      return "/assets/icons/file-csv.svg";
+    // Document
+    case "pdf":
+      return "/assets/icons/file-pdf.svg";
+    // Image
+    case "svg":
+      return "/assets/icons/file-image.svg";
     case "txt":
       return "/assets/icons/file-txt.svg";
     case "xls":
     case "xlsx":
       return "/assets/icons/file-document.svg";
-    // Image
-    case "svg":
-      return "/assets/icons/file-image.svg";
-    // Video
-    case "mkv":
-    case "mov":
-    case "avi":
-    case "wmv":
-    case "mp4":
-    case "flv":
-    case "webm":
-    case "m4v":
-    case "3gp":
-      return "/assets/icons/file-video.svg";
-    // Audio
-    case "mp3":
-    case "mpeg":
-    case "wav":
-    case "aac":
-    case "flac":
-    case "ogg":
-    case "wma":
-    case "m4a":
-    case "aiff":
-    case "alac":
-      return "/assets/icons/file-audio.svg";
 
     default:
       switch (type) {
-        case "image":
-          return "/assets/icons/file-image.svg";
-        case "document":
-          return "/assets/icons/file-document.svg";
-        case "video":
-          return "/assets/icons/file-video.svg";
         case "audio":
           return "/assets/icons/file-audio.svg";
+        case "document":
+          return "/assets/icons/file-document.svg";
+        case "image":
+          return "/assets/icons/file-image.svg";
+        case "video":
+          return "/assets/icons/file-video.svg";
         default:
           return "/assets/icons/file-other.svg";
       }
@@ -186,34 +186,34 @@ export const constructDownloadUrl = (bucketFileId: string) => {
 export const getUsageSummary = (totalSpace: any) => {
   return [
     {
-      title: "Documents",
-      size: totalSpace.document.size,
-      latestDate: totalSpace.document.latestDate,
       icon: "/assets/icons/file-document-light.svg",
+      latestDate: totalSpace.document.latestDate,
+      size: totalSpace.document.size,
+      title: "Documents",
       url: "/documents",
     },
     {
-      title: "Images",
-      size: totalSpace.image.size,
-      latestDate: totalSpace.image.latestDate,
       icon: "/assets/icons/file-image-light.svg",
+      latestDate: totalSpace.image.latestDate,
+      size: totalSpace.image.size,
+      title: "Images",
       url: "/images",
     },
     {
-      title: "Media",
-      size: totalSpace.video.size + totalSpace.audio.size,
+      icon: "/assets/icons/file-video-light.svg",
       latestDate:
         totalSpace.video.latestDate > totalSpace.audio.latestDate
           ? totalSpace.video.latestDate
           : totalSpace.audio.latestDate,
-      icon: "/assets/icons/file-video-light.svg",
+      size: totalSpace.video.size + totalSpace.audio.size,
+      title: "Media",
       url: "/media",
     },
     {
-      title: "Others",
-      size: totalSpace.other.size,
-      latestDate: totalSpace.other.latestDate,
       icon: "/assets/icons/file-other-light.svg",
+      latestDate: totalSpace.other.latestDate,
+      size: totalSpace.other.size,
+      title: "Others",
       url: "/others",
     },
   ];

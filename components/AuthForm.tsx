@@ -1,9 +1,6 @@
 "use client";
 
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
+import OtpModal from "@/components/OTPModal";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,11 +11,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { createAccount, SignInUser } from "@/lib/actions/user.actions";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
-import { createAccount, SignInUser } from "@/lib/actions/user.actions";
-import OtpModal from "@/components/OTPModal";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -39,11 +38,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
       email: "",
+      fullName: "",
     },
+    resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -54,8 +53,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
       const user =
         type === "sign-up"
           ? await createAccount({
-              fullName: values.fullName || "",
               email: values.email,
+              fullName: values.fullName || "",
             })
           : await SignInUser({ email: values.email });
 
@@ -70,7 +69,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
+        <form className="auth-form" onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className="form-title">
             {type === "sign-in" ? "Sign In" : "Sign Up"}
           </h1>
@@ -85,8 +84,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
                     <FormControl>
                       <Input
-                        placeholder="Enter your full name"
                         className="shad-input"
+                        placeholder="Enter your full name"
                         {...field}
                       />
                     </FormControl>
@@ -108,8 +107,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
                   <FormControl>
                     <Input
-                      placeholder="Enter your email"
                       className="shad-input"
+                      placeholder="Enter your email"
                       {...field}
                     />
                   </FormControl>
@@ -121,19 +120,19 @@ const AuthForm = ({ type }: { type: FormType }) => {
           />
 
           <Button
-            type="submit"
             className="form-submit-button"
             disabled={isLoading}
+            type="submit"
           >
             {type === "sign-in" ? "Sign In" : "Sign Up"}
 
             {isLoading && (
               <Image
-                src="/assets/icons/loader.svg"
                 alt="loader"
-                width={24}
-                height={24}
                 className="ml-2 animate-spin"
+                height={24}
+                src="/assets/icons/loader.svg"
+                width={24}
               />
             )}
           </Button>
@@ -147,8 +146,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 : "Already have an account?"}
             </p>
             <Link
-              href={type === "sign-in" ? "/sign-up" : "/sign-in"}
               className="ml-1 font-medium text-brand"
+              href={type === "sign-in" ? "/sign-up" : "/sign-in"}
             >
               {" "}
               {type === "sign-in" ? "Sign Up" : "Sign In"}
@@ -158,7 +157,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       </Form>
 
       {accountId && (
-        <OtpModal email={form.getValues("email")} accountId={accountId} />
+        <OtpModal accountId={accountId} email={form.getValues("email")} />
       )}
     </>
   );

@@ -9,17 +9,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
+import { Button } from "@/components/ui/button";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import React, { useState } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { sendEmailOTP, verifySecret } from "@/lib/actions/user.actions";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const OtpModal = ({
   accountId,
@@ -60,18 +59,18 @@ const OtpModal = ({
   };
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+    <AlertDialog onOpenChange={setIsOpen} open={isOpen}>
       <AlertDialogContent className="shad-alert-dialog">
         <AlertDialogHeader className="relative flex justify-center">
           <AlertDialogTitle className="h2 text-center">
             Enter Your OTP
             <Image
-              src="/assets/icons/close-dark.svg"
               alt="close"
-              width={20}
+              className="otp-close-button"
               height={20}
               onClick={() => setIsOpen(false)}
-              className="otp-close-button"
+              src="/assets/icons/close-dark.svg"
+              width={20}
             />
           </AlertDialogTitle>
           <AlertDialogDescription className="subtitle-2 text-center text-light-100">
@@ -80,32 +79,32 @@ const OtpModal = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <InputOTP maxLength={6} value={password} onChange={setPassword}>
+        <InputOTP maxLength={6} onChange={setPassword} value={password}>
           <InputOTPGroup className="shad-otp">
-            <InputOTPSlot index={0} className="shad-otp-slot" />
-            <InputOTPSlot index={1} className="shad-otp-slot" />
-            <InputOTPSlot index={2} className="shad-otp-slot" />
-            <InputOTPSlot index={3} className="shad-otp-slot" />
-            <InputOTPSlot index={4} className="shad-otp-slot" />
-            <InputOTPSlot index={5} className="shad-otp-slot" />
+            <InputOTPSlot className="shad-otp-slot" index={0} />
+            <InputOTPSlot className="shad-otp-slot" index={1} />
+            <InputOTPSlot className="shad-otp-slot" index={2} />
+            <InputOTPSlot className="shad-otp-slot" index={3} />
+            <InputOTPSlot className="shad-otp-slot" index={4} />
+            <InputOTPSlot className="shad-otp-slot" index={5} />
           </InputOTPGroup>
         </InputOTP>
 
         <AlertDialogFooter>
           <div className="flex w-full flex-col gap-4">
             <AlertDialogAction
-              onClick={handleSubmit}
               className="shad-submit-btn h-12"
+              onClick={handleSubmit}
               type="button"
             >
               Submit
               {isLoading && (
                 <Image
-                  src="/assets/icons/loader.svg"
                   alt="loader"
-                  width={24}
-                  height={24}
                   className="ml-2 animate-spin"
+                  height={24}
+                  src="/assets/icons/loader.svg"
+                  width={24}
                 />
               )}
             </AlertDialogAction>
@@ -113,10 +112,10 @@ const OtpModal = ({
             <div className="subtitle-2 mt-2 text-center text-light-100">
               Didn&apos;t get a code?
               <Button
-                type="button"
-                variant="link"
                 className="pl-1 text-brand"
                 onClick={handleResendOtp}
+                type="button"
+                variant="link"
               >
                 Click to resend
               </Button>

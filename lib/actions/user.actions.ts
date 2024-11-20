@@ -11,12 +11,13 @@
 
 "use server";
 
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { ID, Query } from "node-appwrite";
+
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -47,11 +48,11 @@ export const sendEmailOTP = async ({ email }: { email: string }) => {
 };
 
 export const createAccount = async ({
-  fullName,
   email,
+  fullName,
 }: {
-  fullName: string;
   email: string;
+  fullName: string;
 }) => {
   const existingUser = await getUserByEmail(email);
 
@@ -67,11 +68,11 @@ export const createAccount = async ({
       appwriteConfig.usersCollectionId,
       ID.unique(),
       {
-        fullName,
-        email,
+        accountId,
         avatar:
           "https://static.vecteezy.com/system/resources/previews/021/548/095/large_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg",
-        accountId,
+        email,
+        fullName,
       }
     );
   }
@@ -92,8 +93,8 @@ export const verifySecret = async ({
     const session = await account.createSession(accountId, password);
 
     (await cookies()).set("appwrite-session", session.secret, {
-      path: "/",
       httpOnly: true,
+      path: "/",
       sameSite: "strict",
       secure: true,
     });
@@ -105,7 +106,7 @@ export const verifySecret = async ({
 };
 
 export const getCurrentUser = async () => {
-  const { databases, account } = await createSessionClient();
+  const { account, databases } = await createSessionClient();
 
   const result = await account.get();
 

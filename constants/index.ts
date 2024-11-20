@@ -1,83 +1,83 @@
 export const navItems = [
   {
-    name: 'Dashboard',
-    icon: '/assets/icons/dashboard.svg',
-    url: '/',
+    icon: "/assets/icons/dashboard.svg",
+    name: "Dashboard",
+    url: "/",
   },
   {
-    name: 'Documents',
-    icon: '/assets/icons/documents.svg',
-    url: '/documents',
+    icon: "/assets/icons/documents.svg",
+    name: "Documents",
+    url: "/documents",
   },
   {
-    name: 'Images',
-    icon: '/assets/icons/images.svg',
-    url: '/images',
+    icon: "/assets/icons/images.svg",
+    name: "Images",
+    url: "/images",
   },
   {
-    name: 'Media',
-    icon: '/assets/icons/video.svg',
-    url: '/media',
+    icon: "/assets/icons/video.svg",
+    name: "Media",
+    url: "/media",
   },
   {
-    name: 'Others',
-    icon: '/assets/icons/others.svg',
-    url: '/others',
+    icon: "/assets/icons/others.svg",
+    name: "Others",
+    url: "/others",
   },
 ];
 
 export const actionsDropdownItems = [
   {
-    label: 'Rename',
-    icon: '/assets/icons/edit.svg',
-    value: 'rename',
+    icon: "/assets/icons/edit.svg",
+    label: "Rename",
+    value: "rename",
   },
   {
-    label: 'Details',
-    icon: '/assets/icons/info.svg',
-    value: 'details',
+    icon: "/assets/icons/info.svg",
+    label: "Details",
+    value: "details",
   },
   {
-    label: 'Share',
-    icon: '/assets/icons/share.svg',
-    value: 'share',
+    icon: "/assets/icons/share.svg",
+    label: "Share",
+    value: "share",
   },
   {
-    label: 'Download',
-    icon: '/assets/icons/download.svg',
-    value: 'download',
+    icon: "/assets/icons/download.svg",
+    label: "Download",
+    value: "download",
   },
   {
-    label: 'Delete',
-    icon: '/assets/icons/delete.svg',
-    value: 'delete',
+    icon: "/assets/icons/delete.svg",
+    label: "Delete",
+    value: "delete",
   },
 ];
 
 export const sortTypes = [
   {
-    label: 'Date created (newest)',
-    value: '$createdAt-desc',
+    label: "Date created (newest)",
+    value: "$createdAt-desc",
   },
   {
-    label: 'Created Date (oldest)',
-    value: '$createdAt-asc',
+    label: "Created Date (oldest)",
+    value: "$createdAt-asc",
   },
   {
-    label: 'Name (A-Z)',
-    value: 'name-asc',
+    label: "Name (A-Z)",
+    value: "name-asc",
   },
   {
-    label: 'Name (Z-A)',
-    value: 'name-desc',
+    label: "Name (Z-A)",
+    value: "name-desc",
   },
   {
-    label: 'Size (Highest)',
-    value: 'size-desc',
+    label: "Size (Highest)",
+    value: "size-desc",
   },
   {
-    label: 'Size (Lowest)',
-    value: 'size-asc',
+    label: "Size (Lowest)",
+    value: "size-asc",
   },
 ];
 

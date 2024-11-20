@@ -1,24 +1,23 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
-
-import { useDropzone } from "react-dropzone";
-import { Button } from "@/components/ui/button";
-import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
-import Image from "next/image";
 import Thumbnail from "@/components/Thumbnail";
+import { Button } from "@/components/ui/button";
 import { MAX_FILE_SIZE } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import { uploadFile } from "@/lib/actions/file.actions";
+import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import React, { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 interface Props {
-  ownerId: string;
   accountId: string;
   className?: string;
+  ownerId: string;
 }
 
-const FileUploader = ({ ownerId, accountId, className }: Props) => {
+const FileUploader = ({ accountId, className, ownerId }: Props) => {
   const path = usePathname();
   const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
@@ -34,17 +33,17 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
           );
 
           return toast({
+            className: "error-toast",
             description: (
               <p className="body-2 text-white">
                 <span className="font-semibold">{file.name}</span> is too large.
                 Max file size is 50MB.
               </p>
             ),
-            className: "error-toast",
           });
         }
 
-        return uploadFile({ file, ownerId, accountId, path }).then(
+        return uploadFile({ accountId, file, ownerId, path }).then(
           (uploadedFile) => {
             if (uploadedFile) {
               setFiles((prevFiles) =>
@@ -60,7 +59,7 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
     [ownerId, accountId, path]
   );
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getInputProps, getRootProps } = useDropzone({ onDrop });
 
   const handleRemoveFile = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
@@ -73,12 +72,12 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
   return (
     <div {...getRootProps()} className="cursor-pointer">
       <input {...getInputProps()} />
-      <Button type="button" className={cn("uploader-button", className)}>
+      <Button className={cn("uploader-button", className)} type="button">
         <Image
-          src="/assets/icons/upload.svg"
           alt="upload"
-          width={24}
           height={24}
+          src="/assets/icons/upload.svg"
+          width={24}
         />{" "}
         <p>Upload</p>
       </Button>
@@ -87,37 +86,37 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
           <h4 className="h4 text-light-100">Uploading</h4>
 
           {files.map((file, index) => {
-            const { type, extension } = getFileType(file.name);
+            const { extension, type } = getFileType(file.name);
 
             return (
               <li
-                key={`${file.name}-${index}`}
                 className="uploader-preview-item"
+                key={`${file.name}-${index}`}
               >
                 <div className="flex items-center gap-3">
                   <Thumbnail
-                    type={type}
                     extension={extension}
+                    type={type}
                     url={convertFileToUrl(file)}
                   />
 
                   <div className="preview-item-name">
                     {file.name}
                     <Image
+                      alt="Loader"
+                      height={26}
                       src="/assets/icons/file-loader.gif"
                       width={80}
-                      height={26}
-                      alt="Loader"
                     />
                   </div>
                 </div>
 
                 <Image
+                  alt="Remove"
+                  height={24}
+                  onClick={(e) => handleRemoveFile(e, file.name)}
                   src="/assets/icons/remove.svg"
                   width={24}
-                  height={24}
-                  alt="Remove"
-                  onClick={(e) => handleRemoveFile(e, file.name)}
                 />
               </li>
             );

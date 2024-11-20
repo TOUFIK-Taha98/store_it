@@ -1,36 +1,36 @@
 "use client";
 
+import FileUploader from "@/components/FileUploader";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Separator } from "@radix-ui/react-separator";
 import { navItems } from "@/constants";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import FileUploader from "@/components/FileUploader";
 import { SignOutUser } from "@/lib/actions/user.actions";
+import { cn } from "@/lib/utils";
+import { Separator } from "@radix-ui/react-separator";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useState } from "react";
 
 interface Props {
   $id: string;
   accountId: string;
-  fullName: string;
   avatar: string;
   email: string;
+  fullName: string;
 }
 
 const MobileNavigation = ({
   $id: ownerId,
   accountId,
-  fullName,
   avatar,
   email,
+  fullName,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -38,31 +38,31 @@ const MobileNavigation = ({
   return (
     <header className="mobile-header">
       <Image
-        src="/assets/icons/logo-full-brand.svg"
         alt="logo"
-        width={120}
-        height={52}
         className="h-auto"
+        height={52}
+        src="/assets/icons/logo-full-brand.svg"
+        width={120}
       />
 
-      <Sheet open={open} onOpenChange={setOpen}>
+      <Sheet onOpenChange={setOpen} open={open}>
         <SheetTrigger>
           <Image
-            src="/assets/icons/menu.svg"
             alt="Search"
-            width={30}
             height={30}
+            src="/assets/icons/menu.svg"
+            width={30}
           />
         </SheetTrigger>
         <SheetContent className="shad-sheet h-screen px-3">
           <SheetTitle>
             <div className="header-user">
               <Image
-                src={avatar}
                 alt="avatar"
-                width={44}
-                height={44}
                 className="header-user-avatar"
+                height={44}
+                src={avatar}
+                width={44}
               />
               <div className="sm:hidden lg:block">
                 <p className="subtitle-2 capitalize">{fullName}</p>
@@ -74,8 +74,8 @@ const MobileNavigation = ({
 
           <nav className="mobile-nav">
             <ul className="mobile-nav-list">
-              {navItems.map(({ url, name, icon }) => (
-                <Link key={name} href={url} className="lg:w-full">
+              {navItems.map(({ icon, name, url }) => (
+                <Link className="lg:w-full" href={url} key={name}>
                   <li
                     className={cn(
                       "mobile-nav-item",
@@ -83,14 +83,14 @@ const MobileNavigation = ({
                     )}
                   >
                     <Image
-                      src={icon}
                       alt={name}
-                      width={24}
-                      height={24}
                       className={cn(
                         "nav-icon",
                         pathname === url && "nav-icon-active"
                       )}
+                      height={24}
+                      src={icon}
+                      width={24}
                     />
                     <p>{name}</p>
                   </li>
@@ -102,17 +102,17 @@ const MobileNavigation = ({
           <Separator className="my-5 bg-light-200/20" />
 
           <div className="flex flex-col justify-between gap-5 pb-5">
-            <FileUploader ownerId={ownerId} accountId={accountId} />
+            <FileUploader accountId={accountId} ownerId={ownerId} />
             <Button
-              type="submit"
               className="mobile-sign-out-button"
               onClick={async () => await SignOutUser()}
+              type="submit"
             >
               <Image
-                src="/assets/icons/logout.svg"
                 alt="logo"
-                width={24}
                 height={24}
+                src="/assets/icons/logout.svg"
+                width={24}
               />
               <p>Logout</p>
             </Button>

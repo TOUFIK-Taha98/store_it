@@ -1,6 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript", "standard", "plugin:tailwindcss/recommended", "prettier" ],
+  "extends": ["next/core-web-vitals", "next/typescript", "standard", "plugin:tailwindcss/recommended", "prettier","plugin:perfectionist/recommended-natural-legacy" ],
+  "plugins": ["perfectionist"],
   "rules": {
-    "no-undef": "off"
+    "no-undef": "off",
+    "perfectionist/sort-imports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
+      }
+    ]
   }
 }

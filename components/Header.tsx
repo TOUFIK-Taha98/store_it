@@ -1,22 +1,22 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Search from "@/components/Search";
 import FileUploader from "@/components/FileUploader";
+import Search from "@/components/Search";
+import { Button } from "@/components/ui/button";
 import { SignOutUser } from "@/lib/actions/user.actions";
+import Image from "next/image";
+import React from "react";
 
 const Header = ({
-  userId,
   accountId,
+  userId,
 }: {
-  userId: string;
   accountId: string;
+  userId: string;
 }) => {
   return (
     <header className="header">
       <Search />
       <div className="header-wrapper">
-        <FileUploader ownerId={userId} accountId={accountId} />
+        <FileUploader accountId={accountId} ownerId={userId} />
         <form
           action={async () => {
             "use server";
@@ -24,13 +24,13 @@ const Header = ({
             await SignOutUser();
           }}
         >
-          <Button type="submit" className="sign-out-button">
+          <Button className="sign-out-button" type="submit">
             <Image
-              src="/assets/icons/logout.svg"
               alt="logo"
-              width={24}
-              height={24}
               className="w-6"
+              height={24}
+              src="/assets/icons/logout.svg"
+              width={24}
             />
           </Button>
         </form>
