@@ -1,6 +1,8 @@
-# 📂 File Management and Sharing Platform
+# 📂 **CloudBox** - File Management and Sharing Platform
 
-A modern solution to manage, organize, and share your files effortlessly. Built with the latest **Next.js 15** and **Appwrite Node SDK**, this platform delivers a seamless and intuitive user experience.
+A modern solution to manage, organize, and share your files effortlessly. Built with the latest **Next.js 15** and **Appwrite Node SDK**, **CloudBox** delivers a seamless and intuitive user experience.
+
+Explore the platform here: [**CloudBox**](https://cloudbox-xi.vercel.app/sign-in)
 
 ---
 
@@ -54,5 +56,3 @@ A modern solution to manage, organize, and share your files effortlessly. Built 
 - Built with cutting-edge technologies (**React 19**, **Next.js 15**, and more).
 - Designed with a focus on usability and aesthetics.
 - Modular and maintainable codebase for scalability.
-
----
